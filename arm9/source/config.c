@@ -627,10 +627,10 @@ static size_t saveLumaIniConfigToStr(char *out)
         case 2: forceAudioOutputStr = "speakers"; break;
     }
 
-    if (VERSION_BUILD != 0) {
-        sprintf(lumaVerStr, "Luma3DS v%d.%d.%d", (int)VERSION_MAJOR, (int)VERSION_MINOR, (int)VERSION_BUILD);
+    if (EVOLUTION_VERSION_BUILD != 0) {
+        sprintf(lumaVerStr, "Evolution3DS v%d.%d.%d", (int)EVOLUTION_VERSION_MAJOR, (int)EVOLUTION_VERSION_MINOR, (int)EVOLUTION_VERSION_BUILD);
     } else {
-        sprintf(lumaVerStr, "Luma3DS v%d.%d", (int)VERSION_MAJOR, (int)VERSION_MINOR);
+        sprintf(lumaVerStr, "Evolution3DS v%d.%d", (int)EVOLUTION_VERSION_MAJOR, (int)EVOLUTION_VERSION_MINOR);
     }
 
     if (ISRELEASE) {
@@ -698,7 +698,7 @@ static char tmpIniBuffer[0x2000];
 
 static bool readLumaIniConfig(void)
 {
-    u32 rd = fileRead(tmpIniBuffer, "config.ini", sizeof(tmpIniBuffer) - 1);
+    u32 rd = fileRead(tmpIniBuffer, "evoconfig.ini", sizeof(tmpIniBuffer) - 1);
     if (rd == 0) return false;
 
     tmpIniBuffer[rd] = '\0';
@@ -709,7 +709,7 @@ static bool readLumaIniConfig(void)
 static bool writeLumaIniConfig(void)
 {
     size_t n = saveLumaIniConfigToStr(tmpIniBuffer);
-    return n != 0 && fileWrite(tmpIniBuffer, "config.ini", n);
+    return n != 0 && fileWrite(tmpIniBuffer, "evoconfig.ini", n);
 }
 
 // ===========================================================
@@ -719,7 +719,7 @@ static void writeConfigMcu(void)
     u8 data[sizeof(CfgDataMcu)];
 
     // Set Luma version
-    configDataMcu.lumaVersion = MAKE_LUMA_VERSION_MCU(VERSION_MAJOR, VERSION_MINOR, VERSION_BUILD);
+    configDataMcu.lumaVersion = MAKE_LUMA_VERSION_MCU(LUMA_VERSION_MAJOR, LUMA_VERSION_MINOR, LUMA_VERSION_BUILD);
 
     // Set bootconfig from CfgData
     configDataMcu.bootCfg = configData.bootConfig;
@@ -741,7 +741,7 @@ static void writeConfigMcu(void)
 static bool readConfigMcu(void)
 {
     u8 data[sizeof(CfgDataMcu)];
-    u16 curVer = MAKE_LUMA_VERSION_MCU(VERSION_MAJOR, VERSION_MINOR, VERSION_BUILD);
+    u16 curVer = MAKE_LUMA_VERSION_MCU(LUMA_VERSION_MAJOR, LUMA_VERSION_MINOR, LUMA_VERSION_BUILD);
 
     // Select free reg id, then access the data regs
     I2C_writeReg(I2C_DEV_MCU, 0x60, 200 - sizeof(CfgDataMcu));
@@ -873,7 +873,7 @@ void configMenu(bool oldPinStatus, u32 oldPinMode)
 
                                                  "Activate a PIN lock.\n\n"
                                                  "The PIN will be asked each time\n"
-                                                 "Luma3DS boots.\n\n"
+                                                 "Evolution3DS boots.\n\n"
                                                  "4, 6 or 8 digits can be selected.\n\n"
                                                  "The ABXY buttons and the directional\n"
                                                  "pad buttons can be used as keys.\n\n"
@@ -938,7 +938,7 @@ void configMenu(bool oldPinStatus, u32 oldPinMode)
                                                  "when booting GBA games.",
 
                                                 // Should always be the last 2 entries
-                                                "Boot to the Luma3DS chainloader menu.",
+                                                "Boot to the Evolution3DS chainloader menu.",
 
                                                  "Save the changes and exit. To discard\n"
                                                  "any changes press the POWER button.\n"

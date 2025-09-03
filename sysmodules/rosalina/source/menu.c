@@ -497,10 +497,13 @@ static void menuDraw(Menu *menu, u32 selected)
     else
         Draw_DrawFormattedString(SCREEN_BOT_WIDTH - 10 - SPACING_X * 19, SCREEN_BOT_HEIGHT - 20, COLOR_WHITE, "%19s", "");
 
-    if(isRelease)
-        Draw_DrawFormattedString(10, SCREEN_BOT_HEIGHT - 20, COLOR_TITLE, "Luma3DS %s", versionString);
-    else
-        Draw_DrawFormattedString(10, SCREEN_BOT_HEIGHT - 20, COLOR_TITLE, "Luma3DS %s-%08lx", versionString, commitHash);
+    if(isRelease) {
+        Draw_DrawString(10, SCREEN_BOT_HEIGHT - 30, COLOR_LIGHT_BLUE, "Evolution3DS");
+        Draw_DrawFormattedString(10, SCREEN_BOT_HEIGHT - 20, COLOR_TITLE, "Based on Luma3DS %s", versionString);
+    } else {
+        Draw_DrawString(10, SCREEN_BOT_HEIGHT - 30, COLOR_LIGHT_BLUE, "Evolution3DS");
+        Draw_DrawFormattedString(10, SCREEN_BOT_HEIGHT - 20, COLOR_TITLE, "Based on Luma3DS %s-%08lx", versionString, commitHash);
+    }
 
     Draw_FlushFramebuffer();
 }

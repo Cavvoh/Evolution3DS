@@ -32,7 +32,9 @@ INCLUDES	:=	include include/gdb include/menus include/redshift
 # options for code generation
 #---------------------------------------------------------------------------------
 ARCH	:=	-march=armv6k -mtune=mpcore -mfloat-abi=hard -mtp=soft
-DEFINES :=	-D__3DS__ -DHBLDR_DEFAULT_3DSX_TID="0x$(HBLDR_DEFAULT_3DSX_TID)ULL" -DHBLDR_DEFAULT_3DSX_TITLE_NAME="\"$(HBLDR_DEFAULT_3DSX_TITLE_NAME)\""
+DEFINES :=	-D__3DS__ -DHBLDR_DEFAULT_3DSX_TID="0x$(HBLDR_DEFAULT_3DSX_TID)ULL" -DHBLDR_DEFAULT_3DSX_TITLE_NAME="\"$(HBLDR_DEFAULT_3DSX_TITLE_NAME)\"" \
+		-DEVOLUTION_VERSION_MAJOR="$(EVOLUTION_VERSION_MAJOR)" -DEVOLUTION_VERSION_MINOR="$(EVOLUTION_VERSION_MINOR)" -DEVOLUTION_VERSION_BUILD="$(EVOLUTION_VERSION_BUILD)" \
+		-DLUMA_VERSION_MAJOR="$(LUMA_VERSION_MAJOR)" -DLUMA_VERSION_MINOR="$(LUMA_VERSION_MINOR)" -DLUMA_VERSION_BUILD="$(LUMA_VERSION_BUILD)"
 
 FALSEPOSITIVES := -Wno-array-bounds -Wno-stringop-overflow -Wno-stringop-overread
 CFLAGS	:=	-g -std=gnu11 -Wall -Wextra -Werror -Wno-unused-value -Os -mword-relocations \

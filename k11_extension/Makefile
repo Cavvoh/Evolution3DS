@@ -9,6 +9,10 @@ endif
 TOPDIR ?= $(CURDIR)
 include $(DEVKITARM)/base_rules
 
+ifndef EVOLUTION_VERSION_MAJOR
+include $(TOPDIR)/../version.mk
+endif
+
 #---------------------------------------------------------------------------------
 # TARGET is the name of the output
 # BUILD is the directory where object files & intermediate files will be placed
@@ -27,7 +31,9 @@ INCLUDES	:=	include include/svc
 #---------------------------------------------------------------------------------
 # -mgeneral-regs-only so that the C code is guaranteed not to use FPU regs
 ARCH	:=	-march=armv6k -mtune=mpcore -mfloat-abi=hard -mtp=soft -mgeneral-regs-only
-DEFINES :=	-DARM11 -D__3DS__
+DEFINES :=	-DARM11 -D__3DS__ \
+		-DEVOLUTION_VERSION_MAJOR="$(EVOLUTION_VERSION_MAJOR)" -DEVOLUTION_VERSION_MINOR="$(EVOLUTION_VERSION_MINOR)" -DEVOLUTION_VERSION_BUILD="$(EVOLUTION_VERSION_BUILD)" \
+		-DLUMA_VERSION_MAJOR="$(LUMA_VERSION_MAJOR)" -DLUMA_VERSION_MINOR="$(LUMA_VERSION_MINOR)" -DLUMA_VERSION_BUILD="$(LUMA_VERSION_BUILD)"
 
 FALSEPOSITIVES := -Wno-array-bounds -Wno-stringop-overflow -Wno-stringop-overread
 CFLAGS	:=	-g -std=gnu11 -Wall -Wextra -Werror -O2 -mword-relocations \

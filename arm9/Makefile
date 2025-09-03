@@ -1,4 +1,17 @@
 #---------------------------------------------------------------------------------
+ifndef EVOLUTION_VERSION_MAJOR
+include $(TOPDIR)/../version.mk
+endif
+
+ifeq ($(strip $(EVOLUTION_VERSION_MAJOR)),)
+export REVISION			:=	$(shell git describe --tags --match v[0-9]* --abbrev=8 | sed 's/-[0-9]*-g/-/')
+export EVOLUTION_VERSION_MAJOR	:=	$(shell git describe --tags --match v[0-9]* | cut -c2- | cut -f1 -d- | cut -f1 -d.)
+export EVOLUTION_VERSION_MINOR	:=	$(shell git describe --tags --match v[0-9]* | cut -c2- | cut -f1 -d- | cut -f2 -d.)
+export EVOLUTION_VERSION_BUILD	:=	$(shell git describe --tags --match v[0-9]* | cut -c2- | cut-f1 -d- | cut -f3 -d.)
+else
+export REVISION			:=	v$(EVOLUTION_VERSION_MAJOR).$(EVOLUTION_VERSION_MINOR).$(EVOLUTION_VERSION_BUILD)
+endif
+#---------------------------------------------------------------------------------
 .SUFFIXES:
 #---------------------------------------------------------------------------------
 
@@ -9,26 +22,38 @@ endif
 TOPDIR ?= $(CURDIR)
 include $(DEVKITARM)/base_rules
 
+ifndef EVOLUTION_VERSION_MAJOR
+include $(TOPDIR)/../version.mk
+endif
+
+ifeq ($(strip $(EVOLUTION_VERSION_MAJOR)),)
 export REVISION			:=	$(shell git describe --tags --match v[0-9]* --abbrev=8 | sed 's/-[0-9]*-g/-/')
-export VERSION_MAJOR	:=	$(shell git describe --tags --match v[0-9]* | cut -c2- | cut -f1 -d- | cut -f1 -d.)
-export VERSION_MINOR	:=	$(shell git describe --tags --match v[0-9]* | cut -c2- | cut -f1 -d- | cut -f2 -d.)
-export VERSION_BUILD	:=	$(shell git describe --tags --match v[0-9]* | cut -c2- | cut -f1 -d- | cut -f3 -d.)
+export EVOLUTION_VERSION_MAJOR	:=	$(shell git describe --tags --match v[0-9]* | cut -c2- | cut -f1 -d- | cut -f1 -d.)
+export EVOLUTION_VERSION_MINOR	:=	$(shell git describe --tags --match v[0-9]* | cut -c2- | cut -f1 -d- | cut -f2 -d.)
+export EVOLUTION_VERSION_BUILD	:=	$(shell git describe --tags --match v[0-9]* | cut -c2- | cut -f1 -d- | cut -f3 -d.)
+endif
+
 export COMMIT			:=	$(shell git rev-parse --short=8 HEAD)
 export IS_RELEASE		:=	0
 
-ifeq ($(strip $(REVISION)),)
-	export REVISION			:=	v0.0.0-0
-	export VERSION_MAJOR	:=	0
-	export VERSION_MINOR	:=	0
-	export VERSION_BUILD	:=	0
+ifeq ($(strip $(EVOLUTION_VERSION_MAJOR)),)
+	export EVOLUTION_VERSION_MAJOR	:=	0
+	export EVOLUTION_VERSION_MINOR	:=	0
+	export EVOLUTION_VERSION_BUILD	:=	0
 endif
 
 ifeq ($(strip $(COMMIT)),)
 	export COMMIT			:=	0
 endif
 
-ifeq ($(strip $(VERSION_BUILD)),)
-	export VERSION_BUILD	:=	0
+ifeq ($(strip $(EVOLUTION_VERSION_BUILD)),)
+	export EVOLUTION_VERSION_BUILD	:=	0
+endif
+
+ifndef LUMA_VERSION_MAJOR
+	export LUMA_VERSION_MAJOR	:=	13
+	export LUMA_VERSION_MINOR	:=	0
+	export LUMA_VERSION_BUILD	:=	1
 endif
 
 ifeq ($(strip $(shell git describe --tags --match v[0-9]* | grep -)),)
@@ -45,7 +70,7 @@ export HBLDR_DEFAULT_3DSX_TID ?= 000400000D921E00
 # DATA is a list of directories containing data files
 # INCLUDES is a list of directories containing header files
 #---------------------------------------------------------------------------------
-APP_TITLE	:=	Luma3DS
+APP_TITLE	:=	Evolution3DS
 TARGET		:=	$(notdir $(CURDIR))
 BUILD		:=	build
 SOURCES		:=	source source/fatfs source/fatfs/sdmmc
@@ -168,8 +193,11 @@ $(OFILES_SRC)	: $(HFILES_BIN)
 
 memory.o strings.o:	CFLAGS +=	-O3
 patches.o config.o:	CFLAGS +=	-DCONFIG_TITLE="\"$(APP_TITLE) $(REVISION) configuration\""\
-								-DVERSION_MAJOR="$(VERSION_MAJOR)" -DVERSION_MINOR="$(VERSION_MINOR)"\
-								-DVERSION_BUILD="$(VERSION_BUILD)" -DISRELEASE="$(IS_RELEASE)" -DCOMMIT_HASH="0x$(COMMIT)"
+								-DISRELEASE="$(IS_RELEASE)" -DCOMMIT_HASH="0x$(COMMIT)"\
+								-DEVOLUTION_VERSION_MAJOR="$(EVOLUTION_VERSION_MAJOR)" -DEVOLUTION_VERSION_MINOR="$(EVOLUTION_VERSION_MINOR)"\
+								-DEVOLUTION_VERSION_BUILD="$(EVOLUTION_VERSION_BUILD)"\
+								-DLUMA_VERSION_MAJOR="$(LUMA_VERSION_MAJOR)" -DLUMA_VERSION_MINOR="$(LUMA_VERSION_MINOR)"\
+								-DLUMA_VERSION_BUILD="$(LUMA_VERSION_BUILD)"
 config.o ini.o:		CFLAGS +=	-DINI_HANDLER_LINENO=1 -DINI_STOP_ON_FIRST_ERROR=1
 #---------------------------------------------------------------------------------
 # you need a rule like this for each extension you use as binary data
