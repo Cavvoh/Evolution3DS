@@ -1,5 +1,5 @@
 /*
-*   This file is part of Luma3DS
+*   This file is part of Evolution3DS
 *   Copyright (C) 2016-2020 Aurora Wright, TuxSH
 *
 *   This program is free software: you can redistribute it and/or modify
@@ -938,7 +938,7 @@ void configMenu(bool oldPinStatus, u32 oldPinMode)
                                                  "when booting GBA games.",
 
                                                 // Should always be the last 2 entries
-                                                "Boot to the Evolution3DS chainloader menu.",
+                                                "Boot to the Evolution3DS chainloader \nmenu.",
 
                                                  "Save the changes and exit. To discard\n"
                                                  "any changes press the POWER button.\n"
@@ -1013,8 +1013,8 @@ void configMenu(bool oldPinStatus, u32 oldPinMode)
                                        "FIRM0",
                                        "FIRM1" };
 
-    drawString(true, 10, 10, COLOR_TITLE, CONFIG_TITLE);
-    drawString(true, 10, 10 + SPACING_Y, COLOR_TITLE, "Use the DPAD and A to change settings");
+    drawString(true, 10, 10, COLOR_LIGHT_BLUE, CONFIG_TITLE);
+    drawString(true, 10, 10 + SPACING_Y, COLOR_LIGHT_BLUE, "Use the DPAD and A to change settings");
     drawFormattedString(false, 10, SCREEN_HEIGHT - 2 * SPACING_Y, COLOR_YELLOW, "Booted from %s via %s", isSdMode ? "SD" : "CTRNAND", bootTypes[(u32)bootType]);
 
     //Character to display a selected option
@@ -1035,7 +1035,7 @@ void configMenu(bool oldPinStatus, u32 oldPinMode)
     endPos += SPACING_Y / 2;
 
     //Display all the normal options in white except for the first one
-    for(u32 i = 0, color = COLOR_RED; i < singleOptionsAmount; i++)
+    for(u32 i = 0, color = COLOR_CYAN; i < singleOptionsAmount; i++)
     {
         if(!singleOptions[i].visible) continue;
 
@@ -1043,7 +1043,7 @@ void configMenu(bool oldPinStatus, u32 oldPinMode)
         endPos = drawString(true, 10, singleOptions[i].posY, color, singleOptionsText[i]);
         if(singleOptions[i].enabled && singleOptionsText[i][0] == '(') drawCharacter(true, 10 + SPACING_X, singleOptions[i].posY, color, selected);
 
-        if(color == COLOR_RED)
+        if(color == COLOR_CYAN)
         {
             singleSelected = i;
             selectedOption = i + multiOptionsAmount;
@@ -1133,8 +1133,8 @@ void configMenu(bool oldPinStatus, u32 oldPinMode)
                 if(singleOptions[singleOldSelected].enabled) drawCharacter(true, 10 + SPACING_X, singleOptions[singleOldSelected].posY, COLOR_WHITE, selected);
             }
 
-            if(isMultiOption) drawString(true, 10, multiOptions[selectedOption].posY, COLOR_RED, multiOptionsText[selectedOption]);
-            else drawString(true, 10, singleOptions[singleSelected].posY, COLOR_RED, singleOptionsText[singleSelected]);
+            if(isMultiOption) drawString(true, 10, multiOptions[selectedOption].posY, COLOR_CYAN, multiOptionsText[selectedOption]);
+            else drawString(true, 10, singleOptions[singleSelected].posY, COLOR_CYAN, singleOptionsText[singleSelected]);
 
             drawString(false, 10, 10, COLOR_BLACK, optionsDescription[oldSelectedOption]);
             drawString(false, 10, 10, COLOR_WHITE, optionsDescription[selectedOption]);
@@ -1173,8 +1173,8 @@ void configMenu(bool oldPinStatus, u32 oldPinMode)
         }
 
         //In any case, if the current option is enabled (or a multiple choice option is selected) we must display a red 'x'
-        if(isMultiOption) drawCharacter(true, 10 + multiOptions[selectedOption].posXs[multiOptions[selectedOption].enabled] * SPACING_X, multiOptions[selectedOption].posY, COLOR_RED, selected);
-        else if(singleOptions[singleSelected].enabled && singleOptionsText[singleSelected][0] == '(') drawCharacter(true, 10 + SPACING_X, singleOptions[singleSelected].posY, COLOR_RED, selected);
+        if(isMultiOption) drawCharacter(true, 10 + multiOptions[selectedOption].posXs[multiOptions[selectedOption].enabled] * SPACING_X, multiOptions[selectedOption].posY, COLOR_CYAN, selected);
+        else if(singleOptions[singleSelected].enabled && singleOptionsText[singleSelected][0] == '(') drawCharacter(true, 10 + SPACING_X, singleOptions[singleSelected].posY, COLOR_CYAN, selected);
     }
 
     //Parse and write the new configuration

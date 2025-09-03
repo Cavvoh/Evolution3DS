@@ -25,6 +25,7 @@
 */
 
 #include <3ds.h>
+#include <stdio.h>
 #include "menu.h"
 #include "draw.h"
 #include "fmt.h"
@@ -434,8 +435,50 @@ static void menuDraw(Menu *menu, u32 selected)
 {
     char versionString[16];
     s64 out;
-    u32 version, commitHash;
+    u32 version, commitHash, seconds, minutes, hours, days, year, month;
+    u64 milliseconds = osGetTime();
     bool isRelease;
+    
+    seconds = milliseconds / 1000;
+    milliseconds %= 1000;
+    minutes = seconds / 60;
+    seconds %= 60;
+    hours = minutes / 60;
+    minutes %= 60;
+    days = hours / 24;
+    hours %= 24;
+
+    year = 1900; // osGetTime starts in 1900
+
+    while (true)
+    {
+        bool leapYear = (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0));
+        u16 daysInYear = leapYear ? 366 : 365;
+        if (days >= daysInYear)
+        {
+            days -= daysInYear;
+            ++year;
+        }
+        else
+        {
+            static const u8 daysInMonth[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+            for (month = 0; month < 12; ++month)
+            {
+                u8 dim = daysInMonth[month];
+
+                if (month == 1 && leapYear)
+                    ++dim;
+
+                if (days >= dim)
+                    days -= dim;
+                else
+                    break;
+            }
+            break;
+        }
+    }
+    days++;
+    month++;
 
     Result mcuInfoRes = menuUpdateMcuInfo();
 
@@ -453,7 +496,7 @@ static void menuDraw(Menu *menu, u32 selected)
     else
         sprintf(versionString, "v%lu.%lu.%lu", GET_VERSION_MAJOR(version), GET_VERSION_MINOR(version), GET_VERSION_REVISION(version));
 
-    Draw_DrawString(10, 10, COLOR_TITLE, menu->title);
+    Draw_DrawString(10, 10, COLOR_LIGHT_BLUE, menu->title);
     u32 numItems = menuCountItems(menu);
     u32 dispY = 0;
 
@@ -462,8 +505,8 @@ static void menuDraw(Menu *menu, u32 selected)
         if (menuItemIsHidden(&menu->items[i]))
             continue;
 
-        Draw_DrawString(30, 30 + dispY, COLOR_WHITE, menu->items[i].title);
-        Draw_DrawCharacter(10, 30 + dispY, COLOR_TITLE, i == selected ? '>' : ' ');
+        u32 yPos = 40 + dispY;
+        Draw_DrawMenuCursor(yPos, (i == selected), menu->items[i].title);
         dispY += SPACING_Y;
     }
 
@@ -492,18 +535,21 @@ static void menuDraw(Menu *menu, u32 selected)
             voltageInt, voltageFrac,
             percentageInt, percentageFrac
         );
-        Draw_DrawString(SCREEN_BOT_WIDTH - 10 - SPACING_X * n, SCREEN_BOT_HEIGHT - 20, COLOR_WHITE, buf);
+        Draw_DrawString(SCREEN_BOT_WIDTH - 10 - SPACING_X * n, SCREEN_BOT_HEIGHT - 20, COLOR_CYAN, buf);
     }
     else
         Draw_DrawFormattedString(SCREEN_BOT_WIDTH - 10 - SPACING_X * 19, SCREEN_BOT_HEIGHT - 20, COLOR_WHITE, "%19s", "");
 
     if(isRelease) {
         Draw_DrawString(10, SCREEN_BOT_HEIGHT - 30, COLOR_LIGHT_BLUE, "Evolution3DS");
-        Draw_DrawFormattedString(10, SCREEN_BOT_HEIGHT - 20, COLOR_TITLE, "Based on Luma3DS %s", versionString);
+        Draw_DrawFormattedString(10, SCREEN_BOT_HEIGHT - 20, COLOR_LIGHT_BLUE, "Based on Luma3DS %s", versionString);
     } else {
         Draw_DrawString(10, SCREEN_BOT_HEIGHT - 30, COLOR_LIGHT_BLUE, "Evolution3DS");
-        Draw_DrawFormattedString(10, SCREEN_BOT_HEIGHT - 20, COLOR_TITLE, "Based on Luma3DS %s-%08lx", versionString, commitHash);
+        Draw_DrawFormattedString(10, SCREEN_BOT_HEIGHT - 20, COLOR_LIGHT_BLUE, "Based on Luma3DS %s-%08lx", versionString, commitHash);
     }
+    
+    Draw_DrawFormattedString(SCREEN_BOT_WIDTH - 30 - SPACING_X * 15.6, 10, COLOR_CYAN, "%02lu-%02lu-%04lu", days, month, year);
+    Draw_DrawFormattedString(SCREEN_BOT_WIDTH - 30 - SPACING_X * 4.6, 10, COLOR_CYAN, "%02lu:%02lu:%02lu", hours, minutes, seconds);
 
     Draw_FlushFramebuffer();
 }
@@ -531,7 +577,7 @@ void menuShow(Menu *root)
 
     do
     {
-        u32 pressed = waitInputWithTimeout(1000);
+        u32 pressed = waitInputWithTimeout(30);
         numItems = menuCountItems(currentMenu);
 
         if(!menuComboReleased && (scanHeldKeys() & menuCombo) != menuCombo)
@@ -594,6 +640,16 @@ void menuShow(Menu *root)
             do {
                 selectedItem = menuAdvanceCursor(selectedItem, numItems, n);
             } while (menuItemIsHidden(&currentMenu->items[selectedItem])); // assume at least one item is visible
+        }
+        else if(pressed & KEY_START)
+        {
+            if (isServiceUsable("nwm::EXT"))
+            {
+                u8 wireless = (*(vu8 *)((0x10140000 | (1u << 31)) + 0x180));
+                nwmExtInit();
+                NWMEXT_ControlWirelessEnabled(!wireless);
+                nwmExtExit();
+            }
         }
 
         Draw_Lock();

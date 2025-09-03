@@ -388,3 +388,69 @@ void Draw_ConvertFrameBufferLines(u8 *buf, u32 width, u32 startingLine, u32 numL
     FrameBufferConvertArgs args = { buf, width, (u8)startingLine, (u8)numLines, (u8)scaleFactorY, top, left };
     svcCustomBackdoor(Draw_ConvertFrameBufferLinesKernel, &args);
 }
+
+void ClearScreenQuickly(void)
+{
+    Draw_Lock();
+    Draw_ClearFramebuffer();
+    Draw_FlushFramebuffer();
+    Draw_Unlock();
+}
+
+void Draw_DrawMenuFrame(const char *title)
+{
+    Draw_DrawString(10, 10, COLOR_LIGHT_BLUE, title);
+}
+
+void Draw_DrawMenuCursor(u32 yPos, bool selected, const char *text)
+{
+    static int scrollOffset = 0;
+    static u32 lastSelectedHash = 0;
+    static int scrollDir = 1;
+    static int scrollWait = 0;
+    const int scrollSpeed = 2;
+    const int scrollWaitFrames = 40;
+    const int scrollInitialWaitFrames = 15;
+
+    u32 currentHash = yPos ^ ((u32)text);
+    
+    if (selected) {
+        if (lastSelectedHash != currentHash) {
+            scrollOffset = 0;
+            lastSelectedHash = currentHash;
+            scrollDir = 1;
+            scrollWait = scrollInitialWaitFrames;
+        }
+        int titleLen = strlen(text);
+        if (titleLen > 36) {
+            int maxOffset = (titleLen - 36) * 8;
+            if (scrollWait > 0) {
+                scrollWait--;
+            } else {
+                scrollOffset += scrollSpeed * scrollDir;
+                if (scrollDir == 1 && scrollOffset >= maxOffset) {
+                    scrollOffset = maxOffset;
+                    scrollWait = scrollWaitFrames;
+                    scrollDir = -1;
+                } else if (scrollDir == -1 && scrollOffset <= 0) {
+                    scrollOffset = 0;
+                    scrollWait = scrollWaitFrames;
+                    scrollDir = 1;
+                }
+            }
+            Draw_DrawString(15, yPos, COLOR_LIGHT_BLUE, "->");
+            char buf[37];
+            strncpy(buf, text + (scrollOffset/8), 36);
+            buf[36] = '\0';
+            Draw_DrawString(35, yPos, COLOR_CYAN, buf);
+        } else {
+            Draw_DrawString(15, yPos, COLOR_LIGHT_BLUE, "->");
+            Draw_DrawString(35, yPos, COLOR_CYAN, text);
+        }
+        Draw_DrawString(250, yPos, COLOR_LIGHT_BLUE, "<-        ");
+    } else {
+        Draw_DrawString(15, yPos, COLOR_GRAY, " *");
+        Draw_DrawString(250, yPos, COLOR_WHITE, "  ");
+        Draw_DrawString(35, yPos, COLOR_WHITE, text);
+    }
+}

@@ -30,10 +30,12 @@
 #include "menus/n3ds.h"
 #include "memory.h"
 #include "menu.h"
+#include "menus.h"
 #include "n3ds.h"
 #include "draw.h"
 
 static char clkRateBuf[128 + 1];
+static char new3dsMenuBuf[128 + 1];
 
 static QtmCalibrationData lastQtmCal = {0};
 static bool qtmCalRead = false;
@@ -69,6 +71,10 @@ void N3DSMenu_UpdateStatus(void)
     N3DSMenu.items[0].title = L2CacheEnabled ? "Disable L2 cache" : "Enable L2 cache";
     sprintf(clkRateBuf, "Set clock rate to %luMHz", clkRate != 268 ? 268 : (u32)higherClkRate);
 
+        
+    sprintf(new3dsMenuBuf, "New 3DS settings: [%luMHz%s", clkRate == 268 ? 268 : (u32)higherClkRate, L2CacheEnabled ? " & L2]" : "]");
+
+    rosalinaMenu.items[4].title = new3dsMenuBuf;
     if (N3DSMenu_CheckNotN2dsXl())
     {
         bool blacklisted = false;
@@ -140,7 +146,7 @@ void N3DSMenu_TestBarrierPositions(void)
     {
         Draw_Lock();
 
-        Draw_DrawString(10, 10, COLOR_TITLE, "New 3DS menu");
+        Draw_DrawString(10, 10, COLOR_LIGHT_BLUE, "New 3DS menu");
         u32 posY = Draw_DrawString(10, 30, COLOR_WHITE, "Use left/right to adjust the barrier's position.\n\n");
         posY = Draw_DrawString(10, posY, COLOR_WHITE, "Each position corresponds to 5.2mm horizontal eye\nmovement (assuming ideal viewing conditions).\n\n");
         posY = Draw_DrawString(10, posY, COLOR_WHITE, "Once you figure out the ideal central position, you\ncan then use it in the calibration submenu.\n\n");
@@ -210,7 +216,7 @@ void N3DSMenu_Ss3dCalibration(void)
 
         Draw_Lock();
 
-        Draw_DrawString(10, 10, COLOR_TITLE, "New 3DS menu");
+        Draw_DrawString(10, 10, COLOR_LIGHT_BLUE, "New 3DS menu");
         u32 posY = 30;
 
         if (trackingDisabled)

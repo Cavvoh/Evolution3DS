@@ -17,8 +17,7 @@ export HBLDR_DEFAULT_3DSX_TID ?= 000400000D921E00
 # What to call the title corresponding to HBLDR_DEFAULT_3DSX_TID
 export HBLDR_DEFAULT_3DSX_TITLE_NAME ?= "hblauncher_loader"
 
-# NAME		:=	$(notdir $(CURDIR))
-NAME            :=      Evolution3DS
+NAME		:=	$(notdir $(CURDIR))
 REVISION	:=	$(shell git describe --tags --match v[0-9]* --abbrev=8 | sed 's/-[0-9]*-g/-/')
 
 ifeq ($(strip $(EVOLUTION_VERSION_BUILD)),0)

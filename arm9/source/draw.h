@@ -32,6 +32,7 @@
 #pragma once
 
 #include "types.h"
+#include "utils.h"
 
 #define SPACING_Y 10
 #define SPACING_X 8
@@ -42,6 +43,8 @@
 #define COLOR_GREEN  0x00FF00
 #define COLOR_BLACK  0x000000
 #define COLOR_YELLOW 0x00FFFF
+#define COLOR_CYAN   0xFFFF00
+#define COLOR_LIGHT_BLUE 0xFFC080
 
 #define DRAW_MAX_FORMATTED_STRING_SIZE  512
 

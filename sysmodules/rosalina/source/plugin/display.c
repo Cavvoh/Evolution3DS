@@ -13,10 +13,10 @@ void    DispMessage(const char *title, const char *message)
     Draw_ClearFramebuffer();
     Draw_FlushFramebuffer();
 
-    Draw_DrawString(10, 10, COLOR_TITLE, title);
+    Draw_DrawString(10, 10, COLOR_LIGHT_BLUE, title);
 
     Draw_DrawString(30, 30, COLOR_WHITE, message);
-    Draw_DrawString(200, 220, COLOR_TITLE, __press_b_to_close);
+    Draw_DrawString(200, 220, COLOR_LIGHT_BLUE, __press_b_to_close);
 
 
     u32 keys = 0;
@@ -41,11 +41,11 @@ u32    DispErrMessage(const char *title, const char *message, const Result error
     Draw_ClearFramebuffer();
     Draw_FlushFramebuffer();
 
-    Draw_DrawString(10, 10, COLOR_TITLE, title);
+    Draw_DrawString(10, 10, COLOR_LIGHT_BLUE, title);
 
     u32 posY = Draw_DrawString(30, 30, COLOR_WHITE, message);
     Draw_DrawString(30, posY + 20, COLOR_RED, buf);
-    Draw_DrawString(200, 220, COLOR_TITLE, __press_b_to_close);
+    Draw_DrawString(200, 220, COLOR_LIGHT_BLUE, __press_b_to_close);
 
     u32 keys = 0;
 
@@ -85,7 +85,7 @@ void    DisplayPluginMenu(u32   *cmdbuf)
             Draw_FlushFramebuffer();
 
             // Draw title
-            Draw_DrawString(10, 10, COLOR_TITLE, title);
+            Draw_DrawString(10, 10, COLOR_LIGHT_BLUE, title);
 
             // Draw items
             u32 i = MAX(0, (int)cursor - 7);
@@ -97,13 +97,13 @@ void    DisplayPluginMenu(u32   *cmdbuf)
                 sprintf(buffer, "[ ] %s", items[i]);
                 Draw_DrawString(30, posY, COLOR_WHITE, buffer);
 
-                if (i == cursor) Draw_DrawCharacter(10, posY, COLOR_TITLE, '>');
+                if (i == cursor) Draw_DrawCharacter(10, posY, COLOR_LIGHT_BLUE, '>');
                 if (states[i]) Draw_DrawCharacter(36, posY, COLOR_LIME, 'x');
             }
 
             // Draw hint
             if (hints[cursor][0])
-                Draw_DrawString(10, 200, COLOR_TITLE, hints[cursor]);
+                Draw_DrawString(10, 200, COLOR_LIGHT_BLUE, hints[cursor]);
         }
 
         // Wait for input
