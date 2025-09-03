@@ -98,6 +98,7 @@ void Draw_DrawCharacter(u32 posX, u32 posY, u32 color, char character);
 u32 Draw_DrawString(u32 posX, u32 posY, u32 color, const char *string);
 
 void ClearScreenQuickly(void);
+void Draw_DrawMenuFrame(const char *title);
 void Draw_DrawMenuCursor(u32 yPos, bool selected, const char *text);
 
 __attribute__((format(printf,4,5)))
@@ -119,3 +120,4 @@ void Draw_GetCurrentScreenInfo(u32 *width, bool *is3d, bool top);
 
 void Draw_CreateBitmapHeader(u8 *dst, u32 width, u32 heigth);
 void Draw_ConvertFrameBufferLines(u8 *buf, u32 width, u32 startingLine, u32 numLines, u32 scaleFactorY, bool top, bool left);
+void Draw_CreateCombinedBitmapHeader(u8 *dst, u32 combinedWidth, u32 combinedHeight);

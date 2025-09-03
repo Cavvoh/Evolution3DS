@@ -938,7 +938,7 @@ void configMenu(bool oldPinStatus, u32 oldPinMode)
                                                  "when booting GBA games.",
 
                                                 // Should always be the last 2 entries
-                                                "Boot to the Evolution3DS chainloader menu.",
+                                                "Boot to the Evolution3DS chainloader \nmenu.",
 
                                                  "Save the changes and exit. To discard\n"
                                                  "any changes press the POWER button.\n"

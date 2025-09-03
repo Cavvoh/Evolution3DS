@@ -397,6 +397,11 @@ void ClearScreenQuickly(void)
     Draw_Unlock();
 }
 
+void Draw_DrawMenuFrame(const char *title)
+{
+    Draw_DrawString(10, 10, COLOR_LIGHT_BLUE, title);
+}
+
 void Draw_DrawMenuCursor(u32 yPos, bool selected, const char *text)
 {
     static int scrollOffset = 0;
@@ -433,15 +438,16 @@ void Draw_DrawMenuCursor(u32 yPos, bool selected, const char *text)
                     scrollDir = 1;
                 }
             }
-            Draw_DrawString(15, yPos, COLOR_LIGHT_BLUE, ">>");
+            Draw_DrawString(15, yPos, COLOR_LIGHT_BLUE, "->");
             char buf[37];
             strncpy(buf, text + (scrollOffset/8), 36);
             buf[36] = '\0';
             Draw_DrawString(35, yPos, COLOR_CYAN, buf);
         } else {
-            Draw_DrawString(15, yPos, COLOR_LIGHT_BLUE, ">>");
+            Draw_DrawString(15, yPos, COLOR_LIGHT_BLUE, "->");
             Draw_DrawString(35, yPos, COLOR_CYAN, text);
         }
+        Draw_DrawString(250, yPos, COLOR_LIGHT_BLUE, "<-        ");
     } else {
         Draw_DrawString(15, yPos, COLOR_GRAY, " *");
         Draw_DrawString(250, yPos, COLOR_WHITE, "  ");
