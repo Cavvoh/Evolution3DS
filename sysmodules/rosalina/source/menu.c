@@ -492,17 +492,17 @@ static void menuDraw(Menu *menu, u32 selected)
             voltageInt, voltageFrac,
             percentageInt, percentageFrac
         );
-        Draw_DrawString(SCREEN_BOT_WIDTH - 10 - SPACING_X * n, SCREEN_BOT_HEIGHT - 20, COLOR_WHITE, buf);
+        Draw_DrawString(SCREEN_BOT_WIDTH - 10 - SPACING_X * n, SCREEN_BOT_HEIGHT - 20, COLOR_CYAN, buf);
     }
     else
         Draw_DrawFormattedString(SCREEN_BOT_WIDTH - 10 - SPACING_X * 19, SCREEN_BOT_HEIGHT - 20, COLOR_WHITE, "%19s", "");
 
     if(isRelease) {
         Draw_DrawString(10, SCREEN_BOT_HEIGHT - 30, COLOR_LIGHT_BLUE, "Evolution3DS");
-        Draw_DrawFormattedString(10, SCREEN_BOT_HEIGHT - 20, COLOR_TITLE, "Based on Luma3DS %s", versionString);
+        Draw_DrawFormattedString(10, SCREEN_BOT_HEIGHT - 20, COLOR_LIGHT_BLUE, "Based on Luma3DS %s", versionString);
     } else {
         Draw_DrawString(10, SCREEN_BOT_HEIGHT - 30, COLOR_LIGHT_BLUE, "Evolution3DS");
-        Draw_DrawFormattedString(10, SCREEN_BOT_HEIGHT - 20, COLOR_TITLE, "Based on Luma3DS %s-%08lx", versionString, commitHash);
+        Draw_DrawFormattedString(10, SCREEN_BOT_HEIGHT - 20, COLOR_LIGHT_BLUE, "Based on Luma3DS %s-%08lx", versionString, commitHash);
     }
 
     Draw_FlushFramebuffer();

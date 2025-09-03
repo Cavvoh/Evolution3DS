@@ -2084,8 +2084,15 @@ void RosalinaMenu_Cheats(void)
                     const char * keyAct = (cheats[j]->hasKeyCode ? "*" : " ");
                     sprintf(buf, "%s%s%s", checkbox, keyAct, cheats[j]->name);
 
-                    Draw_DrawString(30, 30 + i * SPACING_Y, cheats[j]->valid ? COLOR_WHITE : COLOR_RED, buf);
-                    Draw_DrawCharacter(10, 30 + i * SPACING_Y, COLOR_TITLE, j == selected ? '>' : ' ');
+                    bool isSelected = (j == selected);
+                    u32 color = cheats[j]->valid ? COLOR_WHITE : COLOR_RED;
+                    if (isSelected) {
+                        Draw_DrawString(15, 40 + i * SPACING_Y, COLOR_LIGHT_BLUE, ">>");
+                        Draw_DrawString(35, 40 + i * SPACING_Y, COLOR_CYAN, buf);
+                    } else {
+                        Draw_DrawString(15, 40 + i * SPACING_Y, COLOR_GRAY, " *");
+                        Draw_DrawString(35, 40 + i * SPACING_Y, color, buf);
+                    }
                 }
             }
             else
