@@ -105,4 +105,10 @@ typedef struct ControlApplicationMemoryModeOverrideConfig {
     u32 enable_n3ds : 1; //< Enable n3ds memory mode override
     u32 o3ds_mode : 3; //< O3ds memory mode
     u32 n3ds_mode : 3; //< N3ds memory mode
-} ControlApplicationMemoryModeOverrideConfig;
+	} ControlApplicationMemoryModeOverrideConfig;
+
+typedef struct
+{
+    char name[128];
+    bool isDefault;
+}  PluginEntry;

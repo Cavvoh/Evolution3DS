@@ -145,7 +145,7 @@ void MiscellaneousMenu_SwitchBoot3dsxTargetTitle(void)
             Draw_DrawString(10, 30, COLOR_WHITE, "Operation succeeded.");
         else
             Draw_DrawFormattedString(10, 30, COLOR_WHITE, "Operation failed (%s).", failureReason);
-
+        Draw_DrawString(10, 50, COLOR_GRAY, "Press B to go back.");
         Draw_FlushFramebuffer();
         Draw_Unlock();
     }

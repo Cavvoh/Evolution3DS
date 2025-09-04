@@ -387,7 +387,7 @@ static u32 ScreenFiltersMenu_AdvancedConfigurationHelper(const ScreenFilter *fil
         Draw_DrawString(250, posY, COLOR_LIGHT_BLUE, "<-");
         posY += SPACING_Y;
     } else {
-        Draw_DrawString(15, posY, COLOR_GRAY, " *");
+        Draw_DrawString(15, posY, COLOR_GRAY, " ~");
         posY = Draw_DrawFormattedString(35, posY, COLOR_WHITE, "Temperature: %12dK", filter->cct);
         Draw_DrawString(250, posY, COLOR_WHITE, "  ");
         posY += SPACING_Y;
@@ -401,7 +401,7 @@ static u32 ScreenFiltersMenu_AdvancedConfigurationHelper(const ScreenFilter *fil
         Draw_DrawString(250, posY, COLOR_LIGHT_BLUE, "<-");
         posY += SPACING_Y;
     } else {
-        Draw_DrawString(15, posY, COLOR_GRAY, " *");
+        Draw_DrawString(15, posY, COLOR_GRAY, " ~");
         posY = Draw_DrawFormattedString(35, posY, COLOR_WHITE, "Gamma:       %13s", buf);
         Draw_DrawString(250, posY, COLOR_WHITE, "  ");
         posY += SPACING_Y;
@@ -415,7 +415,7 @@ static u32 ScreenFiltersMenu_AdvancedConfigurationHelper(const ScreenFilter *fil
         Draw_DrawString(250, posY, COLOR_LIGHT_BLUE, "<-");
         posY += SPACING_Y;
     } else {
-        Draw_DrawString(15, posY, COLOR_GRAY, " *");
+        Draw_DrawString(15, posY, COLOR_GRAY, " ~");
         posY = Draw_DrawFormattedString(35, posY, COLOR_WHITE, "Contrast:    %13s", buf);
         Draw_DrawString(250, posY, COLOR_WHITE, "  ");
         posY += SPACING_Y;
@@ -429,7 +429,7 @@ static u32 ScreenFiltersMenu_AdvancedConfigurationHelper(const ScreenFilter *fil
         Draw_DrawString(250, posY, COLOR_LIGHT_BLUE, "<-");
         posY += SPACING_Y;
     } else {
-        Draw_DrawString(15, posY, COLOR_GRAY, " *");
+        Draw_DrawString(15, posY, COLOR_GRAY, " ~");
         posY = Draw_DrawFormattedString(35, posY, COLOR_WHITE, "Brightness:  %13s", buf);
         Draw_DrawString(250, posY, COLOR_WHITE, "  ");
         posY += SPACING_Y;
@@ -442,7 +442,7 @@ static u32 ScreenFiltersMenu_AdvancedConfigurationHelper(const ScreenFilter *fil
         Draw_DrawString(250, posY, COLOR_LIGHT_BLUE, "<-");
         posY += SPACING_Y;
     } else {
-        Draw_DrawString(15, posY, COLOR_GRAY, " *");
+        Draw_DrawString(15, posY, COLOR_GRAY, " ~");
         posY = Draw_DrawFormattedString(35, posY, COLOR_WHITE, "Invert:      %13s", filter->invert ? "true" : "false");
         Draw_DrawString(250, posY, COLOR_WHITE, "  ");
         posY += SPACING_Y;
