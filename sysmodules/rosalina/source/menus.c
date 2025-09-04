@@ -35,6 +35,7 @@
 #include "menus/miscellaneous.h"
 #include "menus/sysconfig.h"
 #include "menus/screen_filters.h"
+#include "menus/plugin_options.h"
 #include "plugin.h"
 #include "ifile.h"
 #include "memory.h"
@@ -48,7 +49,7 @@ Menu rosalinaMenu = {
         { "Take screenshot", METHOD, .method = &RosalinaMenu_TakeScreenshot },
         { "Screen filters...", MENU, .menu = &screenFiltersMenu },
         { "Cheats...", METHOD, .method = &RosalinaMenu_Cheats },
-        { "", METHOD, .method = PluginLoader__MenuCallback},
+        { "", MENU, .menu = &pluginOptionsMenu}, // Plugin loader
         { "New 3DS settings:", MENU, .menu = &N3DSMenu, .visibility = &menuCheckN3ds },
         { "Process list", METHOD, .method = &RosalinaMenu_ProcessList },
         { "Debugger options...", MENU, .menu = &debuggerMenu },
@@ -60,8 +61,77 @@ Menu rosalinaMenu = {
         { "Credits", METHOD, .method = &RosalinaMenu_ShowCredits },
         { "Debug info", METHOD, .method = &RosalinaMenu_ShowDebugInfo, .visibility = &rosalinaMenuShouldShowDebugInfo },
         {},
+    }};
+
+Result CopyFileInSdmc(const char *src, const char *dst)
+{
+    FS_Archive sdmcArchive;
+    u64 remaining;
+    u64 total;
+    Result res;
+    IFile srcFile;
+    IFile dstFile;
+    const u32 bufferSize = 2048;
+    u8 buffer[bufferSize];
+
+    // Open the sdmc archive
+    if (R_FAILED(res = FSUSER_OpenArchive(&sdmcArchive, ARCHIVE_SDMC, fsMakePath(PATH_EMPTY, ""))))
+        return res;
+
+    // Open the source file
+    if (R_FAILED(res = IFile_OpenFromArchive(&srcFile, sdmcArchive, fsMakePath(PATH_ASCII, src), FS_OPEN_READ)))
+    {
+        FSUSER_CloseArchive(sdmcArchive);
+        return res;
     }
-};
+
+    // Open the destination file
+    if (R_FAILED(res = IFile_OpenFromArchive(&dstFile, sdmcArchive, fsMakePath(PATH_ASCII, dst), FS_OPEN_WRITE)))
+    {
+        IFile_Close(&srcFile);
+        FSUSER_CloseArchive(sdmcArchive);
+        return res;
+    }
+
+    // Close the sdmc archive
+    FSUSER_CloseArchive(sdmcArchive);
+
+    // Clear the destination file
+    if (R_FAILED(res = IFile_SetSize(&dstFile, 0)))
+    {
+        IFile_Close(&srcFile);
+        IFile_Close(&dstFile);
+        return res;
+    }
+
+    // Get the file size
+    if (R_FAILED(IFile_GetSize(&srcFile, &remaining)))
+    {
+        IFile_Close(&srcFile);
+        IFile_Close(&dstFile);
+        return res;
+    }
+
+    // Copy the file
+    while (remaining != 0)
+    {
+        u64 size = remaining > bufferSize ? bufferSize : remaining;
+
+        if (R_FAILED(IFile_Read(&srcFile, &total, (void *)buffer, size)) || R_FAILED(IFile_Write(&dstFile, &total, (void *)buffer, total, 0)))
+        {
+            IFile_Close(&srcFile);
+            IFile_Close(&dstFile);
+            return res;
+        }
+        remaining -= total;
+    }
+
+    // Close the files
+    IFile_Close(&srcFile);
+    IFile_Close(&dstFile);
+
+    return 0;
+}
 
 bool rosalinaMenuShouldShowDebugInfo(void)
 {
@@ -242,7 +312,8 @@ void RosalinaMenu_ShowCredits(void)
                 "  Luma3DS contributors, libctru contributors,\n"
                 "  other people\n\n"
                 "People who made this fork possible:\n"
-                "  Cavvoh"
+                "  Cavvoh, DullPointer, Tekito-256, Gruetzig,\n"
+                "  JBMagination2, hide0123, Pixel-Pop"
             ));
 
         Draw_FlushFramebuffer();
@@ -308,7 +379,7 @@ void RosalinaMenu_TakeScreenshot(void)
     IFile file = {0};
     Result res = 0;
 
-    char filename[64];
+    char filename[256];
     char dateTimeStr[32];
 
     FS_Archive archive;
