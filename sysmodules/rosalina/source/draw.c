@@ -449,7 +449,7 @@ void Draw_DrawMenuCursor(u32 yPos, bool selected, const char *text)
         }
         Draw_DrawString(250, yPos, COLOR_LIGHT_BLUE, "<-        ");
     } else {
-        Draw_DrawString(15, yPos, COLOR_GRAY, " *");
+        Draw_DrawString(15, yPos, COLOR_GRAY, " ~");
         Draw_DrawString(250, yPos, COLOR_WHITE, "  ");
         Draw_DrawString(35, yPos, COLOR_WHITE, text);
     }

@@ -2090,7 +2090,7 @@ void RosalinaMenu_Cheats(void)
                         Draw_DrawString(15, 40 + i * SPACING_Y, COLOR_LIGHT_BLUE, "->");
                         Draw_DrawString(35, 40 + i * SPACING_Y, COLOR_CYAN, buf);
                     } else {
-                        Draw_DrawString(15, 40 + i * SPACING_Y, COLOR_GRAY, " *");
+                        Draw_DrawString(15, 40 + i * SPACING_Y, COLOR_GRAY, " ~");
                         Draw_DrawString(35, 40 + i * SPACING_Y, color, buf);
                     }
                 }
