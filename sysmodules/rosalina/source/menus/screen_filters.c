@@ -150,23 +150,23 @@ static void ScreenFiltersMenu_UpdateEntries(void)
 {
     if (topScreenFilter.colorCurveCorrection == 0)
     {
-        screenFiltersMenu.items[10].title = "[IPS recommended] Enhance top screen colors";
+        screenFiltersMenu.items[10].title = "[IPS recommended] Enhance top screen colors ";
         screenFiltersMenu.items[10].method = &ScreenFiltersMenu_SetTopScreenSrgbColorCurve;
     }
     else
     {
-        screenFiltersMenu.items[10].title = "Restore top screen color curve";
+        screenFiltersMenu.items[10].title = "Restore top screen color curve ";
         screenFiltersMenu.items[10].method = &ScreenFiltersMenu_RestoreTopScreenColorCurve;
     }
 
     if (bottomScreenFilter.colorCurveCorrection == 0)
     {
-        screenFiltersMenu.items[11].title = "[IPS recommended] Enhance bottom screen colors";
+        screenFiltersMenu.items[11].title = "[IPS recommended] Enhance bottom screen colors ";
         screenFiltersMenu.items[11].method = &ScreenFiltersMenu_SetBottomScreenSrgbColorCurve;
     }
     else
     {
-        screenFiltersMenu.items[11].title = "Restore bottom screen color curve";
+        screenFiltersMenu.items[11].title = "Restore bottom screen color curve ";
         screenFiltersMenu.items[11].method = &ScreenFiltersMenu_RestoreBottomScreenColorCurve;
     }
 }
@@ -383,12 +383,12 @@ static u32 ScreenFiltersMenu_AdvancedConfigurationHelper(const ScreenFilter *fil
 
     if (pos == offset) {
         Draw_DrawString(15, posY, COLOR_LIGHT_BLUE, "->");
-        posY = Draw_DrawFormattedString(35, posY, COLOR_CYAN, "Temperature: %12dK", filter->cct);
+        posY = Draw_DrawFormattedString(35 + (SPACING_X / 2) - SPACING_X, posY, COLOR_CYAN, " Temperature: %12dK ", filter->cct);
         Draw_DrawString(250, posY, COLOR_LIGHT_BLUE, "<-");
         posY += SPACING_Y;
     } else {
         Draw_DrawString(15, posY, COLOR_GRAY, " ~");
-        posY = Draw_DrawFormattedString(35, posY, COLOR_WHITE, "Temperature: %12dK", filter->cct);
+        posY = Draw_DrawFormattedString(35 - SPACING_X, posY, COLOR_WHITE, " Temperature: %12dK ", filter->cct);
         Draw_DrawString(250, posY, COLOR_WHITE, "  ");
         posY += SPACING_Y;
     }
@@ -397,12 +397,12 @@ static u32 ScreenFiltersMenu_AdvancedConfigurationHelper(const ScreenFilter *fil
     floatToString(buf, filter->gamma, 2, true);
     if (pos == offset) {
         Draw_DrawString(15, posY, COLOR_LIGHT_BLUE, "->");
-        posY = Draw_DrawFormattedString(35, posY, COLOR_CYAN, "Gamma:       %13s", buf);
+        posY = Draw_DrawFormattedString(35 + (SPACING_X / 2) - SPACING_X, posY, COLOR_CYAN, " Gamma:       %13s ", buf);
         Draw_DrawString(250, posY, COLOR_LIGHT_BLUE, "<-");
         posY += SPACING_Y;
     } else {
         Draw_DrawString(15, posY, COLOR_GRAY, " ~");
-        posY = Draw_DrawFormattedString(35, posY, COLOR_WHITE, "Gamma:       %13s", buf);
+        posY = Draw_DrawFormattedString(35 - SPACING_X, posY, COLOR_WHITE, " Gamma:       %13s ", buf);
         Draw_DrawString(250, posY, COLOR_WHITE, "  ");
         posY += SPACING_Y;
     }
@@ -411,12 +411,12 @@ static u32 ScreenFiltersMenu_AdvancedConfigurationHelper(const ScreenFilter *fil
     floatToString(buf, filter->contrast, 2, true);
     if (pos == offset) {
         Draw_DrawString(15, posY, COLOR_LIGHT_BLUE, "->");
-        posY = Draw_DrawFormattedString(35, posY, COLOR_CYAN, "Contrast:    %13s", buf);
+        posY = Draw_DrawFormattedString(35 + (SPACING_X / 2) - SPACING_X, posY, COLOR_CYAN, " Contrast:    %13s ", buf);
         Draw_DrawString(250, posY, COLOR_LIGHT_BLUE, "<-");
         posY += SPACING_Y;
     } else {
         Draw_DrawString(15, posY, COLOR_GRAY, " ~");
-        posY = Draw_DrawFormattedString(35, posY, COLOR_WHITE, "Contrast:    %13s", buf);
+        posY = Draw_DrawFormattedString(35 - SPACING_X, posY, COLOR_WHITE, " Contrast:    %13s ", buf);
         Draw_DrawString(250, posY, COLOR_WHITE, "  ");
         posY += SPACING_Y;
     }
@@ -425,12 +425,12 @@ static u32 ScreenFiltersMenu_AdvancedConfigurationHelper(const ScreenFilter *fil
     floatToString(buf, filter->brightness, 2, true);
     if (pos == offset) {
         Draw_DrawString(15, posY, COLOR_LIGHT_BLUE, "->");
-        posY = Draw_DrawFormattedString(35, posY, COLOR_CYAN, "Brightness:  %13s", buf);
+        posY = Draw_DrawFormattedString(35 + (SPACING_X / 2) - SPACING_X, posY, COLOR_CYAN, " Brightness:  %13s ", buf);
         Draw_DrawString(250, posY, COLOR_LIGHT_BLUE, "<-");
         posY += SPACING_Y;
     } else {
         Draw_DrawString(15, posY, COLOR_GRAY, " ~");
-        posY = Draw_DrawFormattedString(35, posY, COLOR_WHITE, "Brightness:  %13s", buf);
+        posY = Draw_DrawFormattedString(35 - SPACING_X, posY, COLOR_WHITE, " Brightness:  %13s ", buf);
         Draw_DrawString(250, posY, COLOR_WHITE, "  ");
         posY += SPACING_Y;
     }
@@ -438,12 +438,12 @@ static u32 ScreenFiltersMenu_AdvancedConfigurationHelper(const ScreenFilter *fil
 
     if (pos == offset) {
         Draw_DrawString(15, posY, COLOR_LIGHT_BLUE, "->");
-        posY = Draw_DrawFormattedString(35, posY, COLOR_CYAN, "Invert:      %13s", filter->invert ? "true" : "false");
+        posY = Draw_DrawFormattedString(35 + (SPACING_X / 2) - SPACING_X, posY, COLOR_CYAN, " Invert:      %13s ", filter->invert ? "true" : "false");
         Draw_DrawString(250, posY, COLOR_LIGHT_BLUE, "<-");
         posY += SPACING_Y;
     } else {
         Draw_DrawString(15, posY, COLOR_GRAY, " ~");
-        posY = Draw_DrawFormattedString(35, posY, COLOR_WHITE, "Invert:      %13s", filter->invert ? "true" : "false");
+        posY = Draw_DrawFormattedString(35  - SPACING_X, posY, COLOR_WHITE, " Invert:      %13s ", filter->invert ? "true" : "false");
         Draw_DrawString(250, posY, COLOR_WHITE, "  ");
         posY += SPACING_Y;
     }
@@ -465,7 +465,7 @@ void ScreenFiltersMenu_AdvancedConfiguration(void)
     do
     {
         Draw_Lock();
-        Draw_DrawString(10, 10, COLOR_LIGHT_BLUE, "Screen filters menu");
+        Draw_DrawMenuFrame("Screen filters menu");
 
         posY = 30;
         posY = Draw_DrawString(10, posY, COLOR_WHITE, "Use left/right to increase/decrease the sel. value.\n");

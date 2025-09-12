@@ -34,6 +34,7 @@
 #include "menus/debugger.h"
 #include "menus/miscellaneous.h"
 #include "menus/sysconfig.h"
+#include "menus/tools.h"
 #include "menus/screen_filters.h"
 #include "menus/plugin_options.h"
 #include "plugin.h"
@@ -55,8 +56,9 @@ Menu rosalinaMenu = {
         { "Debugger options...", MENU, .menu = &debuggerMenu },
         { "System configuration...", MENU, .menu = &sysconfigMenu },
         { "Miscellaneous options...", MENU, .menu = &miscellaneousMenu },
+        { "Tools menu...", MENU, .menu = &toolsMenu },
         { "Save settings", METHOD, .method = &RosalinaMenu_SaveSettings },
-        { "Power off / reboot", METHOD, .method = &RosalinaMenu_PowerOffOrReboot },
+        { "Power options", METHOD, .method = &RosalinaMenu_PowerOffOrReboot },
         { "System info", METHOD, .method = &RosalinaMenu_ShowSystemInfo },
         { "Credits", METHOD, .method = &RosalinaMenu_ShowCredits },
         { "Debug info", METHOD, .method = &RosalinaMenu_ShowDebugInfo, .visibility = &rosalinaMenuShouldShowDebugInfo },
@@ -153,7 +155,7 @@ void RosalinaMenu_SaveSettings(void)
     do
     {
         Draw_Lock();
-        Draw_DrawString(10, 10, COLOR_LIGHT_BLUE, "Save settings");
+        Draw_DrawMenuFrame("Save settings");
         if(R_SUCCEEDED(res))
             Draw_DrawString(10, 30, COLOR_WHITE, "Operation succeeded.");
         else
@@ -174,7 +176,7 @@ void RosalinaMenu_PowerOffOrReboot(void)
     do
     {
         Draw_Lock();
-        Draw_DrawString(10, 10, COLOR_LIGHT_BLUE, "Power Off / Reboot");
+        Draw_DrawMenuFrame("Power options");
         Draw_DrawString(10, 30, COLOR_WHITE, "Press A to power off.\nPress Y to reboot.\nPress B to go back.");
         Draw_FlushFramebuffer();
         Draw_Unlock();
@@ -207,7 +209,7 @@ void RosalinaMenu_ShowSystemInfo(void)
     do
     {
         Draw_Lock();
-        Draw_DrawString(10, 10, COLOR_LIGHT_BLUE, "Rosalina -- System info");
+        Draw_DrawMenuFrame("Rosalina -- System info");
 
         u32 posY = 30;
 
@@ -251,7 +253,7 @@ void RosalinaMenu_ShowDebugInfo(void)
     do
     {
         Draw_Lock();
-        Draw_DrawString(10, 10, COLOR_LIGHT_BLUE, "Rosalina -- Debug info");
+        Draw_DrawMenuFrame("Rosalina -- Debug info");
 
         u32 posY = 30;
 
@@ -295,7 +297,7 @@ void RosalinaMenu_ShowCredits(void)
     do
     {
         Draw_Lock();
-        Draw_DrawString(10, 10, COLOR_LIGHT_BLUE, "Rosalina -- Luma3DS credits");
+        Draw_DrawMenuFrame("Rosalina -- Luma3DS credits");
 
         u32 posY = Draw_DrawString(10, 30, COLOR_WHITE, "Luma3DS (c) 2016-2025 AuroraWright, TuxSH") + SPACING_Y;
 
@@ -456,7 +458,7 @@ end:
     do
     {
         Draw_Lock();
-        Draw_DrawString(10, 10, COLOR_LIGHT_BLUE, "Screenshot");
+        Draw_DrawMenuFrame("Screenshot");
         if(R_FAILED(res))
             Draw_DrawFormattedString(10, 30, COLOR_WHITE, "Operation failed (0x%08lx).", (u32)res);
         else

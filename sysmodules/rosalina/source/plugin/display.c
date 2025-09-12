@@ -13,7 +13,7 @@ void    DispMessage(const char *title, const char *message)
     Draw_ClearFramebuffer();
     Draw_FlushFramebuffer();
 
-    Draw_DrawString(10, 10, COLOR_LIGHT_BLUE, title);
+    Draw_DrawMenuFrame(title);
 
     Draw_DrawString(30, 30, COLOR_WHITE, message);
     Draw_DrawString(200, 220, COLOR_LIGHT_BLUE, __press_b_to_close);
@@ -41,7 +41,7 @@ u32    DispErrMessage(const char *title, const char *message, const Result error
     Draw_ClearFramebuffer();
     Draw_FlushFramebuffer();
 
-    Draw_DrawString(10, 10, COLOR_LIGHT_BLUE, title);
+    Draw_DrawMenuFrame(title);
 
     u32 posY = Draw_DrawString(30, 30, COLOR_WHITE, message);
     Draw_DrawString(30, posY + 20, COLOR_RED, buf);
@@ -85,7 +85,7 @@ void    DisplayPluginMenu(u32   *cmdbuf)
             Draw_FlushFramebuffer();
 
             // Draw title
-            Draw_DrawString(10, 10, COLOR_LIGHT_BLUE, title);
+            Draw_DrawMenuFrame(title);
 
             // Draw items
             u32 i = MAX(0, (int)cursor - 7);
