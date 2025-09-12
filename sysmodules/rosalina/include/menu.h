@@ -33,6 +33,7 @@
 
 #define HID_PAD           (REG32(0x10146000) ^ 0xFFF)
 
+#define BUTTON_ANY              0x00000FFF
 #define DEFAULT_MENU_COMBO      (KEY_L | KEY_DDOWN | KEY_SELECT)
 #define DIRECTIONAL_KEYS        (KEY_DOWN | KEY_UP | KEY_LEFT | KEY_RIGHT)
 

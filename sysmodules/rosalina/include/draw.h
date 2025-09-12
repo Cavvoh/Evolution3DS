@@ -89,6 +89,12 @@
 
 #define DRAW_MAX_FORMATTED_STRING_SIZE  512
 
+#define MAX_TRACKED_LINES 64
+#define CHAR_W 8             // 8px pro Zeichen (wie in deinem scroll-code)
+#define TEXT_BASE_X 35
+#define RIGHT_ARROW_X 250
+#define ARROW_LEN_CHARS 2
+
 void Draw_Init(void);
 
 void Draw_Lock(void);

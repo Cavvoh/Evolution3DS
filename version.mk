@@ -2,7 +2,7 @@
 # This file defines the version numbers for Evolution3DS and the base Luma3DS version
 
 EVOLUTION_VERSION_MAJOR := 1
-EVOLUTION_VERSION_MINOR := 1
+EVOLUTION_VERSION_MINOR := 2
 EVOLUTION_VERSION_BUILD := 0
 
 LUMA_VERSION_MAJOR := 13

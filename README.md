@@ -7,6 +7,8 @@
 ## Added/Changed Features
 - Changed the configuration file name to `evoconfig.ini`
 - Changed the colors of the Rosalina and Configuration menu
+- Tools menu
+- Option to crash the system for fun
 - Set the number of Play Coins  
   ↳ [Original: Gruetzig](https://github.com/Gruetzig/Luma3DS/commit/1e329b55dade61ba74a0bb1cc6e59d2504d0bde1)
 - Plugin selector  
@@ -22,6 +24,8 @@
   ↳ [Original: Pixel-Pop](https://github.com/Pixel-Pop/Luma3DS/commit/d225d9fa507dcccce3a6c86d0a38f7998f39b7a2)
 - N3DS clock + L2 status display in Rosalina menu  
   ↳ [Original: DullPointer](https://github.com/DullPointer/Luma3DS/commit/2dbfa8b5c9b719b7f3056691f54332f42da6de8d)
+- Virtual Home Button  
+  ↳ [Original: AM7999](https://github.com/LumaTeam/Luma3DS/pull/2143)
 
 For detailed technical information, please refer to the [official Luma3DS documentation](https://github.com/LumaTeam/Luma3DS/wiki) and [README](https://github.com/LumaTeam/Luma3DS/blob/master/README.md).
 

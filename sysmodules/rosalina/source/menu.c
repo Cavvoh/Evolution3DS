@@ -502,7 +502,7 @@ static void menuDraw(Menu *menu, u32 selected)
     else
         sprintf(versionString, "v%lu.%lu.%lu", GET_VERSION_MAJOR(version), GET_VERSION_MINOR(version), GET_VERSION_REVISION(version));
 
-    Draw_DrawString(10, 10, COLOR_LIGHT_BLUE, menu->title);
+    Draw_DrawMenuFrame(menu->title);
     u32 numItems = menuCountItems(menu);
     u32 dispY = 0;
 
@@ -516,17 +516,19 @@ static void menuDraw(Menu *menu, u32 selected)
         dispY += SPACING_Y;
     }
 
-    if(miniSocEnabled)
-    {
-        char ipBuffer[17];
+    if (miniSocEnabled) {
         u32 ip = socGethostid();
-        u8 *addr = (u8 *)&ip;
-        int n = sprintf(ipBuffer, "%hhu.%hhu.%hhu.%hhu", addr[0], addr[1], addr[2], addr[3]);
-        Draw_DrawString(SCREEN_BOT_WIDTH - 10 - SPACING_X * n, 10, COLOR_WHITE, ipBuffer);
+        if (ip != 0) {
+            char ipBuffer[17];
+            u8 *addr = (u8 *)&ip;
+            int n = sprintf(ipBuffer, "%hhu.%hhu.%hhu.%hhu", addr[0], addr[1], addr[2], addr[3]);
+            Draw_DrawString(SCREEN_BOT_WIDTH - 10 - SPACING_X * n, SCREEN_BOT_HEIGHT - 30, COLOR_CYAN, ipBuffer);
+        } else {
+            Draw_DrawFormattedString(SCREEN_BOT_WIDTH - 10 - SPACING_X * 15, SCREEN_BOT_HEIGHT - 30, COLOR_WHITE, "%15s", "");
+        }
+    } else {
+        Draw_DrawFormattedString(SCREEN_BOT_WIDTH - 10 - SPACING_X * 15, SCREEN_BOT_HEIGHT - 30, COLOR_WHITE, "%15s", "");
     }
-
-    else
-        Draw_DrawFormattedString(SCREEN_BOT_WIDTH - 10 - SPACING_X * 15, 10, COLOR_WHITE, "%15s", "");
 
     if(mcuInfoRes == 0)
     {
@@ -554,8 +556,8 @@ static void menuDraw(Menu *menu, u32 selected)
         Draw_DrawFormattedString(10, SCREEN_BOT_HEIGHT - 20, COLOR_LIGHT_BLUE, "Based on Luma3DS %s-%08lx", versionString, commitHash);
     }
     
-    Draw_DrawFormattedString(SCREEN_BOT_WIDTH - 30 - SPACING_X * 15.6, 10, COLOR_CYAN, "%02lu-%02lu-%04lu", days, month, year);
-    Draw_DrawFormattedString(SCREEN_BOT_WIDTH - 30 - SPACING_X * 4.6, 10, COLOR_CYAN, "%02lu:%02lu:%02lu", hours, minutes, seconds);
+    Draw_DrawFormattedString(SCREEN_BOT_WIDTH - 30 - SPACING_X * 6.6, 10, COLOR_CYAN, "%02lu-%02lu-%04lu", days, month, year);
+    Draw_DrawFormattedString(SCREEN_BOT_WIDTH - 30 - SPACING_X * 4.6, 20, COLOR_CYAN, "%02lu:%02lu:%02lu", hours, minutes, seconds);
 
     Draw_FlushFramebuffer();
 }
