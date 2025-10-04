@@ -67,6 +67,7 @@ See https://github.com/LumaTeam/Luma3DS/wiki/Credits for original Luma3DS credit
 
 People who made this fork possible:
 - Cavvoh
+- 2b-zipper ([Nexus3DS](https://github.com/2b-zipper/Nexus3DS))
 - DullPointer
 - Tekito-256
 - JBMagination2
